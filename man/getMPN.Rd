@@ -4,19 +4,19 @@
 \alias{getMPN}
 \title{Most Probable Number (MPN) function}
 \usage{
-getMPN(y, n, v)
+getMPN(x, n, v, d)
 }
 \arguments{
-\item{n}{A numeric vector containing the number of MPN replicates}
-
-\item{v}{A numeric vector containing the sample volumes}
-
-\item{dataMPN}{dataframe (or list) named "dataMPN": dataMPN<-data.frame(x=..., n=..., v=...)}
-
 \item{x}{A numeric vector containing values of the positive wells.}
+
+\item{n}{Number of MPN replicates}
+
+\item{v}{Starting volume in ml}
+
+\item{d}{Dilution factor}
 }
 \value{
-The MPN value
+data frame containing the MPN cytopathic unit per ml (MPNCU.ml), standard error (SE), Upper and Lower 95% confidence interval (U_95CI and L_95CI)
 }
 \description{
 Calculates the MPN according to a data.frame (or list).
