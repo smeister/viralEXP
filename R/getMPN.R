@@ -9,19 +9,18 @@
 #' @export
 
 getMPN=function(x,n,v,d){
+  library(bbmle)
   if(is.na(x[1]) | sum(x)==0){
     return(NA)
   } else{
     n<-rep(n,length(x))
     v<-repDIL(v,length(x),d)
     MPN=as.vector(mle2(function(mu){sum(suppressWarnings((n-x)*mu*v-x*log(1-exp(-mu*v))))},start=list(mu=1),method="SANN",optimizer="nlminb")@details$par)
-    SE=(mu^2*sum((n*v^2)/(exp(mu*v)-1)))^-0.5
-    LL=signif(exp(log(mu)-qnorm(1-0.05/2,0,1)*SE),digits=3)
-    UL=signif(exp(log(mu)+qnorm(1-0.05/2,0,1)*SE),digits=3)
-    return(list('MPNCU.ml'=MPN, "U_95CI"=UL, "L_95CI"=LL, "SE"=SE, "x"=x, "n"=n, "v"=v))
+    SE=(MPN^2*sum((n*v^2)/(exp(MPN*v)-1)))^-0.5
+    LL=signif(exp(log(MPN)-qnorm(1-0.05/2,0,1)*SE),digits=3)
+    UL=signif(exp(log(MPN)+qnorm(1-0.05/2,0,1)*SE),digits=3)
+    return(list("Results"=c('MPNCU.ml'=MPN, "U_95CI"=UL, "L_95CI"=LL, "SE"=SE), "x"=x, "n"=n, "v"=v))
   }
 }
 
 
-x<-c(5,5,5,3,2,0)
-getMPN(x, 5, 0.01, 10)

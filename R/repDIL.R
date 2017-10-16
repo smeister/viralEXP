@@ -6,6 +6,7 @@
 #' @param z A numeric value as division factor
 #' @return A vector
 #' @export
+
 repDIL <- function (x, y, z) {
   dil<-c(x)
   k<-1
