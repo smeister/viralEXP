@@ -8,7 +8,7 @@
 #' @export
 
 getMPN=function(x,n,v){
-  if(is.na(x[1]) | sum(y)==0){
+  if(is.na(x[1]) | sum(x)==0){
     return(NA)
   } else{
     MPN=as.vector(mle2(function(mu){sum(suppressWarnings((n-x)*mu*v-x*log(1-exp(-mu*v))))},start=list(mu=1),method="SANN",optimizer="nlminb")@details$par)
