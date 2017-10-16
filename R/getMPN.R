@@ -8,7 +8,7 @@
 #' @return The MPN value
 #' @export
 
-getMPN=function(y,n,v){
+getMPN=function(x,n,v){
   if(is.na(y[1]) | sum(y)==0){
     return(NA)
   } else{
