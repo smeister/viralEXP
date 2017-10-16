@@ -1,7 +1,6 @@
 #' Most Probable Number (MPN) function
 #'
 #' Calculates the MPN according to a data.frame (or list).
-#' @param dataMPN dataframe (or list) named "dataMPN": dataMPN<-data.frame(x=..., n=..., v=...)
 #' @param x A numeric vector containing values of the positive wells.
 #' @param n A numeric vector containing the number of MPN replicates
 #' @param v A numeric vector containing the sample volumes
