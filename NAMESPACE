@@ -2,4 +2,6 @@
 
 export(getK)
 export(getMPN)
+export(plot.getK)
+export(plot.getMPN)
 export(repDIL)
