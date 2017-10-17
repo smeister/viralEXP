@@ -5,7 +5,7 @@
 #' @param n Number of MPN replicates
 #' @param v Starting volume in ml
 #' @param d Dilution factor
-#' @return data frame containing the MPN cytopathic unit per ml (MPNCU.ml), standard error (SE), Upper and Lower 95% confidence interval (U_95CI and L_95CI)
+#' @return data frame containing the MPN cytopathic unit per ml (MPNCU.ml), Upper and Lower 95% confidence interval (U_95CI and L_95CI), and standard error (SE)
 #' @export
 
 getMPN=function(x,n,v,d){
@@ -19,7 +19,7 @@ getMPN=function(x,n,v,d){
     SE=(MPN^2*sum((n*v^2)/(exp(MPN*v)-1)))^-0.5
     LL=signif(exp(log(MPN)-qnorm(1-0.05/2,0,1)*SE),digits=3)
     UL=signif(exp(log(MPN)+qnorm(1-0.05/2,0,1)*SE),digits=3)
-    return(list("Results"=c('MPNCU.ml'=MPN, "U_95CI"=UL, "L_95CI"=LL, "SE"=SE), "x"=x, "n"=n, "v"=v))
+    return(list("Results"=data.frame('MPNCU.ml'=MPN, "U_95CI"=UL, "L_95CI"=LL, "SE"=SE), "raw.data"=data.frame("x"=x, "n"=n, "v"=v)))
   }
 }
 

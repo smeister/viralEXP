@@ -16,7 +16,7 @@ getMPN(x, n, v, d)
 \item{d}{Dilution factor}
 }
 \value{
-data frame containing the MPN cytopathic unit per ml (MPNCU.ml), standard error (SE), Upper and Lower 95% confidence interval (U_95CI and L_95CI)
+data frame containing the MPN cytopathic unit per ml (MPNCU.ml), Upper and Lower 95% confidence interval (U_95CI and L_95CI), and standard error (SE)
 }
 \description{
 Calculates the MPN according to a data.frame (or list).
