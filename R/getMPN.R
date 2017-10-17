@@ -5,11 +5,10 @@
 #' @param n Number of MPN replicates
 #' @param v Starting volume in ml
 #' @param d Dilution factor, 10 as default
-#' @param td time/dose value, NA as default
 #' @return data frame containing the MPN cytopathic unit per ml (MPNCU.ml), Upper and Lower 95% confidence interval (U_95CI and L_95CI), and standard error (SE)
 #' @export
 
-getMPN=function(x,n,v,d=10,td=NA){
+getMPN=function(x,n,v,d=10){
   library(bbmle)
   if(is.na(x[1]) | sum(x)==0){
     return(NA)
@@ -20,7 +19,7 @@ getMPN=function(x,n,v,d=10,td=NA){
     SE=(MPN^2*sum((n*v^2)/(exp(MPN*v)-1)))^-0.5
     LL=signif(exp(log(MPN)-qnorm(1-0.05/2,0,1)*SE),digits=3)
     UL=signif(exp(log(MPN)+qnorm(1-0.05/2,0,1)*SE),digits=3)
-    return(list("Results"=data.frame('MPNCU.ml'=MPN, "Upper 95CI"=UL, "Lower 95CI"=LL, "Std.err"=SE, "Time.Dose"=td), "raw.data"=data.frame("x"=x, "n"=n, "v"=v)))
+    return(list("Results"=data.frame('MPNCU.ml'=MPN, "Upper 95CI"=UL, "Lower 95CI"=LL, "Std.err"=SE), "raw.data"=data.frame("x"=x, "n"=n, "v"=v)))
   }
 }
 
