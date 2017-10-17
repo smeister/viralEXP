@@ -4,7 +4,7 @@
 \alias{plot.getK}
 \title{plotting function of getMPN}
 \usage{
-plot.getK(object, ...)
+plot.getK(...)
 }
 \arguments{
 \item{object}{One of more getK objects}
@@ -13,5 +13,5 @@ plot.getK(object, ...)
 plot
 }
 \description{
-drawns a plot from getK objects
+drawns a plot from getK or getMPN objects
 }
