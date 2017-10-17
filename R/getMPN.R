@@ -4,12 +4,12 @@
 #' @param x A numeric vector containing values of the positive wells.
 #' @param n Number of MPN replicates
 #' @param v Starting volume in ml
-#' @param d Dilution factor
+#' @param d Dilution factor, 10 as default
 #' @param td time/dose value, NA as default
 #' @return data frame containing the MPN cytopathic unit per ml (MPNCU.ml), Upper and Lower 95% confidence interval (U_95CI and L_95CI), and standard error (SE)
 #' @export
 
-getMPN=function(x,n,v,d,td=NA){
+getMPN=function(x,n,v,d=10,td=NA){
   library(bbmle)
   if(is.na(x[1]) | sum(x)==0){
     return(NA)
