@@ -4,7 +4,7 @@
 \alias{plot.getMPN}
 \title{plotting function of getMPN}
 \usage{
-plot.getMPN(...)
+\method{plot}{getMPN}(...)
 }
 \arguments{
 \item{object}{One of more getMPN objects}

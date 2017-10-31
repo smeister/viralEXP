@@ -4,18 +4,16 @@
 \alias{getMPN}
 \title{Most Probable Number (MPN) function}
 \usage{
-getMPN(x, n, v, d, td = NA)
+getMPN(x, n, v, d = 10)
 }
 \arguments{
 \item{x}{A numeric vector containing values of the positive wells.}
 
 \item{n}{Number of MPN replicates}
 
-\item{v}{Starting volume in ml}
+\item{v}{Starting volume in ml or vector of volume}
 
-\item{d}{Dilution factor}
-
-\item{td}{time/dose value, NA as default}
+\item{d}{Dilution factor, 10 as default}
 }
 \value{
 data frame containing the MPN cytopathic unit per ml (MPNCU.ml), Upper and Lower 95% confidence interval (U_95CI and L_95CI), and standard error (SE)

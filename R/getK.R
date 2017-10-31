@@ -1,66 +1,87 @@
 #' GetK function
-#'
+#' @param ... One of more getMPN objects
+#' @param timeV vector containing the time points
+#' @param typeOF to select which combination: FALSE for getMPN combination and TRUE for getK combination.
 #' @export
-getK=function(d,r,plot=F){ # r is to choose the replicate
-  if(missing(r)){
-    d=d
-  } else{
-    d=transform((subset(d,rep==r&!is.na(x))),rep=as.numeric(interaction(rep,drop=T)))
-  }
-
-  ur=length(unique(d$rep))
-  ut=c();for(i in 1:ur){ut[i]=length(unique(d$t[d$rep==i]))}
-  times=matrix(NA,nrow=max(ut),ncol=ur)
-  for(i in 1:ur){for(j in 1:ut[i]){times[1:length(unique(d$t[d$rep==i])),i]=unique(d$t[d$rep==i])}}
-
-  MPNs=matrix(NA,nrow=max(ut),ncol=ur)
-  lnDiffs=matrix(NA,nrow=max(ut),ncol=ur)
-  for(j in 1:ur){
-    for(i in 1:max(ut)){
-      MPNs[i,j]=getMPN(y=d$x[(d$rep %in% j)&(d$t==times[i])],n=d$n[(d$rep %in% j)&(d$t==times[i])],v=d$v[(d$rep %in% j)&(d$t==times[i])])
-      lnDiffs[i,j]=log(MPNs[i,j]/MPNs[1,j])
+getK<-function (..., timeVECT, typeOF=FALSE) {
+  # Merge the different getMPN or single replicates getK inputs
+  input<-list(...)
+  if (length(input)>1) {
+    for (k in 1:length(input)) {
+      if (typeOF == FALSE) { # getMPN combination
+        input[[k]]$raw.data$rep<-rep(1,length(input[[k]]$raw.data$x))
+        input[[k]]$raw.data$t<-rep(timeVECT[k],length(input[[k]]$raw.data$x))
+      }
+      if (typeOF == TRUE) { # getK combination
+        input[[k]]$raw.data$rep<-rep(k,length(input[[k]]$raw.data$x))
+      }
     }
-  }
-  MPNs
-  lnDiffs
-  logDiffs=log10(exp(lnDiffs))
-  k_init=-coef(lm(as.vector(lnDiffs)~as.vector(times)))[2]
-
-  #master lnL method
-  mu0s=MPNs[1,]
-  sum=0
-  lnLs=function(x,n,v,k,t,b,mu0){
-    for(m in 1:ur){
-      x=d$x[(d$rep %in% m)]
-      n=d$n[(d$rep %in% m)]
-      v=d$v[(d$rep %in% m)]
-      t=d$t[(d$rep %in% m)]
-      sum=sum+sum((n-x)*(mu0*exp(-k*t+b))*v-x*log(1-exp(-(mu0*exp(-k*t+b))*v)),na.rm=T)
+    theDF<-data.frame()
+    for (l in 1:length(input)) { # Creating the dataframe with all data
+      theDF<-rbind(theDF,input[[l]]$raw.data)
     }
-    return(sum)
+  } else { # Here for direct data.frame input
+    theDF<-data.frame(input)
   }
-  Mast2=mle2(lnLs,start=list(k=k_init,b=0,mu0=mu0s[1]),data=d,method="BFGS",optimizer="nlminb",skip.hessian=F)
 
-  # output and return
-  if(plot==T){
-    plotplot <- function (a, b, c) {
-      a
-      b
-      c
+  theDF$t<-as.numeric(as.character(theDF$t))
+  theDF$v<-as.numeric(as.character(theDF$v))
+  theDF$rep<-as.numeric(as.character(theDF$rep))
+  # Empty vectors for fill up
+  Results_list<-list()
+  lnDiff_grouped<-c()
+  times_grouped<-c()
+  mu0s<-c()
+  LP1<-c()
+  LP2<-c()
+  k_val<-c()
+  results_names<-c()
+
+  for (i in 1:length(unique(theDF$rep))) { # subset the replicate
+    theDF2<-subset(theDF, rep == unique(theDF$rep)[i])
+    MPN<-c();lnDiff<-c();logDiff<-c();rep<-c();times<-c()
+    for (j in 1:length(unique(theDF2$t))) { # subset the time point
+      # getMPN calculation per timepoint
+      theDF3<-subset(theDF2, t == unique(theDF2$t)[j])
+      if (j == 1) {
+        mu0s<-c(mu0s,getMPN(x=theDF3$x, n=theDF3$n, v=theDF3$v)$Results$MPNCU.ml)
+      }
+      C1<-getMPN(x=theDF3$x, n=theDF3$n, v=theDF3$v)$Results$MPNCU.ml
+      MPN<-c(MPN, C1)
+      lnDiff<-c(lnDiff,log(C1/mu0s[i]))
+      logDiff<-c(logDiff,log10(C1/mu0s[i]))
+      rep<-c(rep, theDF3$rep[j])
+      times<-c(times,theDF3$t[j])
     }
-    supergraph <- plotplot(
-      par(mar=c(4, 4, 1, 1)) ,plot(times,logDiffs),
-      abline(a=coef(Mast2)[2]*log10(exp(1)),b=-coef(Mast2)[1]*log10(exp(1)),lty=1,col='red')
-    )
 
-
-    return(supergraph)
-
-  } else {
-    kGot=cbind(confint(Mast2,parm=c("k"),method="quad")[1],coef(Mast2)[1],confint(Mast2,parm=c("k"),method="quad")[2])
-    #kGot=cbind(confint(Mast2)[,1],coef(Mast2),confint(Mast2)[,2])
-    colnames(kGot)=c("LP 2.5%","MLE","LP 97.5%");rownames(kGot)=c("Decay Rate (k)")
-    return(data.frame(kGot))
+    # getK calculation for each replicate
+    k_init = -coef(lm(as.vector(lnDiff) ~ as.vector(times)))[[2]]
+    lnLs<-buildlnL(theDF2)
+    repSEP = mle2(lnLs, start = list(k = k_init, b = 0, mu0 = mu0s[i]), method = "BFGS", optimizer = "nlminb", skip.hessian = F)
+    lnDiff_grouped<-c(lnDiff_grouped,lnDiff)
+    times_grouped<-c(times_grouped,times)
+    LP1<-c(LP1,confint(repSEP, parm = c("k"), method = "quad")[1])
+    LP2<-c(LP2,confint(repSEP, parm = c("k"), method = "quad")[2])
+    k_val<-c(k_val,coef(repSEP)[1])
+    results_names<-c(results_names,paste("Rep", i, sep=""))
   }
+  # getK calculation for grouped replicates
+  lnLs<-buildlnL(theDF)
+  k_init = -coef(lm(as.vector(lnDiff_grouped) ~ as.vector(times_grouped)))[[2]]
+  repGROUP = mle2(lnLs, start = list(k = k_init, b = 0, mu0 = mean(mu0s)), method = "BFGS", optimizer = "nlminb", skip.hessian = F)
+  LP1<-c(LP1,confint(repGROUP, parm = c("k"), method = "quad")[1])
+  LP2<-c(LP2,confint(repGROUP, parm = c("k"), method = "quad")[2])
+  k_val<-c(k_val,coef(repGROUP)[1])
+  results_names<-c(results_names,"Grouped")
+
+  # Function output
+  Results<-data.frame(
+    "LP 2.5%"=LP1,
+    "Decay rate (k)"=k_val,
+    "LP 97.5%"=LP2,
+    row.names=results_names
+  )
+
+  return(list("Results"=Results,"raw.data"=theDF))
 
 }

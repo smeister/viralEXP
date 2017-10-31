@@ -4,7 +4,14 @@
 \alias{getK}
 \title{GetK function}
 \usage{
-getK(d, r, plot = F)
+getK(..., timeVECT, typeOF = FALSE)
+}
+\arguments{
+\item{...}{One of more getMPN objects}
+
+\item{typeOF}{to select which combination: FALSE for getMPN combination and TRUE for getK combination.}
+
+\item{timeV}{vector containing the time points}
 }
 \description{
 GetK function
