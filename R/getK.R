@@ -1,6 +1,6 @@
 #' GetK function
-#' @param ... One of more getMPN objects
-#' @param timeV vector containing the time points
+#' @param ... One of more getMPN OF getk objects
+#' @param timeVECT vector containing the time points (necessary for getMPN combination)
 #' @param typeOF to select which combination: FALSE for getMPN combination and TRUE for getK combination.
 #' @export
 getK<-function (..., timeVECT, typeOF=FALSE) {
