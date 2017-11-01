@@ -1,8 +1,8 @@
 #rm(list=ls());Sys.setenv(LANG="en")
 
-rota<-read.csv2("D:/Dropbox/EPFL/Lab book/R/projects/viralEXP/Wa_getK.csv")
+#rota<-read.csv2("D:/Dropbox/EPFL/Lab book/R/projects/viralEXP/Wa_getK.csv")
 
-plotK(getK(rota))
+#plotK(getK(rota))
 
 #library(viralEXP)
 #test1<-getMPN(x=c(5,5,5,3,2,0), n=c(5,5,5,5,5,5), v=0.01)

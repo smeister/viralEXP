@@ -6,6 +6,9 @@
 \usage{
 buildlnL(d)
 }
+\arguments{
+\item{d}{Data frame that is passed to the log likelihood function}
+}
 \description{
 Builds a Negative log likelihood (lnL) function
 }

@@ -9,9 +9,9 @@ getK(..., timeVECT, typeOF = FALSE)
 \arguments{
 \item{...}{One of more getMPN OF getk objects}
 
-\item{timeVECT}{vector containing the time/dose points (necessary for getMPN combination)}
+\item{timeVECT}{vector containing the time/dose points (necessary if getMPN as objects)}
 
-\item{typeOF}{to select which combination: FALSE for getMPN combination and TRUE for getK combination.}
+\item{typeOF}{FALSE for getMPN combination and TRUE for getK combination.}
 }
 \description{
 GetK function

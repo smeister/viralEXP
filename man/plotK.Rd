@@ -7,12 +7,12 @@
 plotK(Object, type = "ln")
 }
 \arguments{
-\item{type}{"ln" to return a plot with natural logarithm plot, "log10" to return a log10 plot}
+\item{Object}{A getK object}
 
-\item{...}{A getK object}
+\item{type}{"ln" to return a plot with natural logarithm plot, "log10" to return a log10 plot}
 }
 \value{
-plot
+"ln" or "log10" plot
 }
 \description{
 drawns a plot from getK objects
