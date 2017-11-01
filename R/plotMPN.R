@@ -2,7 +2,6 @@
 #'
 #' drawns a plot from getMPN objects
 #' @param ... One of more getMPN objects
-#' @param yscale select the scale log10 or log
 #' @return plot
 #' @export
 

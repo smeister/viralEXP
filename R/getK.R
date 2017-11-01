@@ -1,6 +1,6 @@
 #' GetK function
 #' @param ... One of more getMPN OF getk objects
-#' @param timeVECT vector containing the time points (necessary for getMPN combination)
+#' @param timeVECT vector containing the time/dose points (necessary for getMPN combination)
 #' @param typeOF to select which combination: FALSE for getMPN combination and TRUE for getK combination.
 #' @export
 getK<-function (..., timeVECT, typeOF=FALSE) {
@@ -35,7 +35,12 @@ getK<-function (..., timeVECT, typeOF=FALSE) {
   LP1<-c()
   LP2<-c()
   k_val<-c()
+  Intercept<-c()
   results_names<-c()
+  MPNs<-c()
+  lnDiffs<-c()
+  logDiffs<-c()
+  Std.err<-c()
 
   for (i in 1:length(unique(theDF$rep))) { # subset the replicate
     theDF2<-subset(theDF, rep == unique(theDF$rep)[i])
@@ -52,6 +57,10 @@ getK<-function (..., timeVECT, typeOF=FALSE) {
       logDiff<-c(logDiff,log10(C1/mu0s[i]))
       rep<-c(rep, theDF3$rep[j])
       times<-c(times,theDF3$t[j])
+      MPNs<-c(MPNs, rep(C1,length(theDF3$t)))
+      lnDiffs<-c(lnDiffs,rep(log(C1/mu0s[i]),length(theDF3$t)))
+      logDiffs<-c(logDiffs,rep(log10(C1/mu0s[i]),length(theDF3$t)))
+      Std.err<-c(Std.err,rep(getMPN(x=theDF3$x, n=theDF3$n, v=theDF3$v)$Results$Std.err,length(theDF3$t)))
     }
 
     # getK calculation for each replicate
@@ -63,8 +72,14 @@ getK<-function (..., timeVECT, typeOF=FALSE) {
     LP1<-c(LP1,confint(repSEP, parm = c("k"), method = "quad")[1])
     LP2<-c(LP2,confint(repSEP, parm = c("k"), method = "quad")[2])
     k_val<-c(k_val,coef(repSEP)[1])
+    Intercept<-c(Intercept,coef(repSEP)[2])
     results_names<-c(results_names,paste("Rep", i, sep=""))
   }
+  # Complete the raw results with MPNs, lnDiffs, and logDiffs vector
+  theDF$MPN<-MPNs
+  theDF$lnDiff<-lnDiffs
+  theDF$logDiff<-logDiffs
+  theDF$Std.err<-Std.err
   # getK calculation for grouped replicates
   lnLs<-buildlnL(theDF)
   k_init = -coef(lm(as.vector(lnDiff_grouped) ~ as.vector(times_grouped)))[[2]]
@@ -72,6 +87,7 @@ getK<-function (..., timeVECT, typeOF=FALSE) {
   LP1<-c(LP1,confint(repGROUP, parm = c("k"), method = "quad")[1])
   LP2<-c(LP2,confint(repGROUP, parm = c("k"), method = "quad")[2])
   k_val<-c(k_val,coef(repGROUP)[1])
+  Intercept<-c(Intercept,coef(repGROUP)[2])
   results_names<-c(results_names,"Grouped")
 
   # Function output
@@ -79,9 +95,9 @@ getK<-function (..., timeVECT, typeOF=FALSE) {
     "LP 2.5%"=LP1,
     "Decay rate (k)"=k_val,
     "LP 97.5%"=LP2,
+    "Intercept"=Intercept,
     row.names=results_names
   )
-
-  return(list("Results"=Results,"raw.data"=theDF))
+  return(list("raw.data"=theDF,"Results"=Results))
 
 }

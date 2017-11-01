@@ -8,8 +8,6 @@ plotMPN(...)
 }
 \arguments{
 \item{...}{One of more getMPN objects}
-
-\item{yscale}{select the scale log10 or log}
 }
 \value{
 plot
