@@ -1,9 +1,9 @@
 #' plotting function of getMPN
 #'
 #' drawns a plot from getK objects
-#' @param ... A getK object
+#' @param Object A getK object
 #' @param type "ln" to return a plot with natural logarithm plot, "log10" to return a log10 plot
-#' @return "ln" plot or "log10"
+#' @return "ln" or "log10" plot
 #' @export
 
 plotK <- function (Object, type="ln") {

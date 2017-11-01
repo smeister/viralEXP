@@ -1,7 +1,7 @@
 #' GetK function
 #' @param ... One of more getMPN OF getk objects
-#' @param timeVECT vector containing the time/dose points (necessary for getMPN combination)
-#' @param typeOF to select which combination: FALSE for getMPN combination and TRUE for getK combination.
+#' @param timeVECT vector containing the time/dose points (necessary if getMPN as objects)
+#' @param typeOF FALSE for getMPN combination and TRUE for getK combination.
 #' @export
 getK<-function (..., timeVECT, typeOF=FALSE) {
   # Merge the different getMPN or single replicates getK inputs

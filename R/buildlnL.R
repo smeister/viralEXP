@@ -1,6 +1,7 @@
 #' Function that builds lnL function based on dataMPN
 #'
 #' Builds a Negative log likelihood (lnL) function
+#' @param d Data frame that is passed to the log likelihood function
 #' @export
 buildlnL <- function (d) {
   function (x, n, v, k, t, b, mu0) {

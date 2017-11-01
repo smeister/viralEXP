@@ -1,6 +1,6 @@
 #' Most Probable Number (MPN) function
 #'
-#' Calculates the MPN according to a data.frame (or list).
+#' Calculates the MPN
 #' @param x A numeric vector containing values of the positive wells.
 #' @param n Number of MPN replicates
 #' @param v Starting volume in ml or vector of volume
