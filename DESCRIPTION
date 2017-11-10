@@ -1,12 +1,14 @@
 Package: viralEXP
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Calculates decay rate coefficients and concentrations for experimental data from endpoint dilution assays (MPN)
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Author: Simon Meister and Matthew Verbyla
+Maintainer: Matthew Verbyla <mverbyla@sdsu.edu>
+Description: Calculates the psuedo-first-order rate coefficient from a decay curve experiment where endpoint dilutions 
+    are used to measure the concentration. This is
+    The package also has a function that calculates the MPN concentration for a single sample based on raw data from an 
+    endpoint dilution assay. 
+License: CC BY-NC-SA 4.0
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1
