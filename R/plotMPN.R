@@ -17,7 +17,7 @@ plotMPN <- function (...) {
   output<-ggplot(plot_df)+
     theme_bw()+
     geom_pointrange(aes(x=Obs,y=MPNCU.ml, ymin=Lower.95CI, ymax=Upper.95CI))+
-    coord_trans(y="log10")
+    scale_y_log10()+
   return(output)
 }
 
