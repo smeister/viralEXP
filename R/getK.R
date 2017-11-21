@@ -1,4 +1,4 @@
-#' GetK function
+#' getK function
 #' @param ... One of more getMPN OF getk objects
 #' @param timeVECT vector containing the time/dose points (necessary if getMPN as objects)
 #' @param typeOF FALSE for getMPN combination and TRUE for getK combination.

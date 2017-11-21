@@ -2,7 +2,7 @@
 % Please edit documentation in R/getK.R
 \name{getK}
 \alias{getK}
-\title{GetK function}
+\title{getK function}
 \usage{
 getK(..., timeVECT, typeOF = FALSE)
 }
@@ -14,5 +14,5 @@ getK(..., timeVECT, typeOF = FALSE)
 \item{typeOF}{FALSE for getMPN combination and TRUE for getK combination.}
 }
 \description{
-GetK function
+getK function
 }
