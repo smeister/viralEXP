@@ -3,7 +3,9 @@
 #' @export
 
 getALL<-function (theDF) {
+  #############################
   ### Mandatory Parameters: ###
+  #############################
   # virus = virus
   # dis = disinfectant
   # sample = sample
