@@ -10,5 +10,5 @@ getALL(theDF)
 \item{theDF}{data.frame containing data according ot the template}
 }
 \description{
-getALL function
+Function that allows the simultaneous MPN calculation according to the template
 }

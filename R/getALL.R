@@ -1,4 +1,6 @@
 #' getALL function
+#'
+#' Function that allows the simultaneous MPN calculation according to the template
 #' @param theDF data.frame containing data according ot the template
 #' @export
 
