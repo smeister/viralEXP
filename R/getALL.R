@@ -4,7 +4,7 @@
 #' @param theDF data.frame containing data according ot the template
 #' @export
 
-getALL<-function (theDF) {
+getALL<-function () {
   #############################
   ### Mandatory Parameters: ###
   #############################
@@ -21,6 +21,8 @@ getALL<-function (theDF) {
   # date = day.month,year
   #############################
 
+  file_path<-file.choose()
+  theDF<-read.csv(file_path,sep=";", header = T)
   theDF<-as.data.frame(lapply(theDF, as.factor))
   theDF$x<-as.numeric(as.character(theDF$x))
   theDF$n<-as.numeric(as.character(theDF$n))
@@ -94,5 +96,6 @@ getALL<-function (theDF) {
     name=name,
     date=date
   )
+  write.table(Final_DF,gsub(pattern=".csv",replacement="_MPN.csv.",x=file_path), dec=".",sep=";", row.names=FALSE)
   return(Final_DF)
 }

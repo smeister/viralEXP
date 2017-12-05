@@ -351,7 +351,7 @@ server <- function (input, output) {
 
   # Observe
   observeEvent(input$clickMPN, {
-    df <- hot.to.df(input$importData)
+    df <- hot.to.r(input$importData)
     output$results <- renderHotable({
       calcMPN(df)
     })

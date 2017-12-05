@@ -4,7 +4,7 @@
 \alias{getALL}
 \title{getALL function}
 \usage{
-getALL(theDF)
+getALL()
 }
 \arguments{
 \item{theDF}{data.frame containing data according ot the template}
