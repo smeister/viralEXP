@@ -96,6 +96,6 @@ getALL<-function () {
     name=name,
     date=date
   )
-  write.table(Final_DF,gsub(pattern=".csv",replacement="_MPN.csv.",x=file_path), dec=".",sep=";", row.names=FALSE)
+  write.table(Final_DF,gsub(pattern=".csv",replacement="_MPN.csv",x=file_path), dec=".",sep=";", row.names=FALSE)
   return(Final_DF)
 }
