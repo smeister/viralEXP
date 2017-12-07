@@ -17,7 +17,7 @@ getMPN=function(x,n,v,d=10){
     n<-rep(n,length(x))
   }
   if(is.na(x[1]) | sum(x)==0){
-    return(NA)
+    return(list("raw.data"=data.frame("x"=rep(NA,length(x)), "n"=n, "v"=v),"Results"=data.frame('MPNCU.ml'=NA, "Upper 95CI"=NA, "Lower 95CI"=NA, "Std.err"=NA)))
   } else {
     MPN=as.vector(mle2(function(mu){sum(suppressWarnings((n-x)*mu*v-x*log(1-exp(-mu*v))))},start=list(mu=1),method="SANN",optimizer="nlminb")@details$par)
     SE=(MPN^2*sum((n*v^2)/(exp(MPN*v)-1)))^-0.5 # Standard error
