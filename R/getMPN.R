@@ -9,7 +9,6 @@
 #' @export
 
 getMPN=function(x,n,v,d=10){
-  library(bbmle)
   if (length(v)==1) {
     v<-repDIL(v,length(x),d)
   }
@@ -23,7 +22,9 @@ getMPN=function(x,n,v,d=10){
     SE=(MPN^2*sum((n*v^2)/(exp(MPN*v)-1)))^-0.5 # Standard error
     LL=signif(exp(log(MPN)-qnorm(1-0.05/2,0,1)*SE),digits=3) # Lower 95% confidence interval
     UL=signif(exp(log(MPN)+qnorm(1-0.05/2,0,1)*SE),digits=3) # Upper 95% confidence interval
-    return(list("raw.data"=data.frame("x"=x, "n"=n, "v"=v),"Results"=data.frame('MPNCU.ml'=MPN, "Upper 95CI"=UL, "Lower 95CI"=LL, "Std.err"=SE)))
+    output<-list("raw.data"=data.frame("x"=x, "n"=n, "v"=v),"Results"=data.frame('MPNCU.ml'=MPN, "Upper 95CI"=UL, "Lower 95CI"=LL, "Std.err"=SE))
+    class(output)<-"getMPN"
+    return(output)
   }
 }
 
