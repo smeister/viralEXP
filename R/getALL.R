@@ -1,25 +1,24 @@
 #' getALL function
 #'
 #' Function that allows the simultaneous MPN calculation according to the template
-#' @param theDF data.frame containing data according ot the template
 #' @export
 
 getALL<-function () {
-  #############################
-  ### Mandatory Parameters: ###
-  #############################
+  ###############################################
+  ### Mandatory Parameters for the .csv file: ###
+  ###############################################
   # virus = virus
   # dis = disinfectant
   # sample = sample
   # exp = experiment
   # rep = replicate
-  # t = dose/tome/exposure. If not such parameters, write "NA"
+  # t = dose/time/exposure. If not such parameters, write "NA"
   # v = volume vector (dilution)
   # n = nb of MPN replicates
   # x = positive CPE
   # name = name of the person
   # date = day.month,year
-  #############################
+  ###############################################
 
   file_path<-file.choose()
   theDF<-read.csv(file_path,sep=";", header = T)
@@ -27,7 +26,6 @@ getALL<-function () {
   theDF$x<-as.numeric(as.character(theDF$x))
   theDF$n<-as.numeric(as.character(theDF$n))
   theDF$v<-as.numeric(as.character(theDF$v))
-  theDF$t<-as.numeric(as.character(theDF$t))
 
   virus<-c()
   dis<-c()
@@ -57,8 +55,8 @@ getALL<-function () {
           for (m in 1:length(levels(theDF5$rep))) { # subset the rep
             theDF6<-subset(theDF5, rep == levels(theDF5$rep)[m])
             theDF6<- droplevels(theDF6)
-            for (o in 1:length(unique(theDF6$t))) { # subset the timepoints (t)
-              theDF7<-subset(theDF6, rep == unique(theDF6$rep)[o])
+            for (o in 1:length(levels(theDF6$t))) { # subset the timepoints (t)
+              theDF7<-subset(theDF6, rep == levels(theDF6$rep)[o])
               theDF7<- droplevels(theDF7)
               # MPN vectors filling
               MPN<-c(MPN,getMPN(x=theDF7$x,n=theDF7$n,v=theDF7$v)$Results$MPNCU.ml)
@@ -71,7 +69,7 @@ getALL<-function () {
               sample<-c(sample,levels(theDF7$sample))
               exp<-c(exp,levels(theDF7$exp))
               rep<-c(rep,levels(theDF7$rep))
-              t<-c(t,unique(theDF7$t))
+              t<-c(t,levels(theDF7$t))
               name<-c(name,levels(theDF7$name))
               date<-c(date,levels(theDF7$date))
             }

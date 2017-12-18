@@ -6,9 +6,6 @@
 \usage{
 getALL()
 }
-\arguments{
-\item{theDF}{data.frame containing data according ot the template}
-}
 \description{
 Function that allows the simultaneous MPN calculation according to the template
 }

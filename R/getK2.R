@@ -1,6 +1,6 @@
 #' GetK function
 #'
-#' @export
+
 getK2=function (d, r, plot = F)
 {
   if (missing(r)) {

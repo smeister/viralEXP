@@ -4,7 +4,7 @@
 \alias{getK}
 \title{getK function}
 \usage{
-getK(..., timeVECT, typeOF = FALSE)
+getK(..., timeVECT)
 }
 \arguments{
 \item{...}{One of more getMPN or getk objects}
