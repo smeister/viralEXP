@@ -1,23 +1,13 @@
-#' getK function
+#' This is the getK S3 function for class "getK" objects
+#'  @export
 #'
-#' Calculate the inactivation constant k by combining MPN values and its uncertainties
-#' Calculate the inactivation constant k by combining k values of different biological replicates
-#' @param ... One of more getMPN or getk objects
-#' @param timeVECT vector containing the time/dose points (necessary if getMPN as objects)
-#' @param typeOF FALSE for getMPN combination and TRUE for getK combination.
-#' @export
-getK<-function (..., timeVECT, typeOF=FALSE) {
+
+getK.getK <- getK<-function (..., timeVECT) {
   # Merge the different getMPN or single replicates getK inputs
   input<-list(...)
   if (length(input)>1) {
     for (k in 1:length(input)) {
-      if (typeOF == FALSE) { # getMPN combination
-        input[[k]]$raw.data$rep<-rep(1,length(input[[k]]$raw.data$x))
-        input[[k]]$raw.data$t<-rep(timeVECT[k],length(input[[k]]$raw.data$x))
-      }
-      if (typeOF == TRUE) { # getK combination
-        input[[k]]$raw.data$rep<-rep(k,length(input[[k]]$raw.data$x))
-      }
+      input[[k]]$raw.data$rep<-rep(k,length(input[[k]]$raw.data$x))
     }
     theDF<-data.frame()
     for (l in 1:length(input)) { # Creating the dataframe with all data
@@ -106,3 +96,4 @@ getK<-function (..., timeVECT, typeOF=FALSE) {
   return(output)
 
 }
+
