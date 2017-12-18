@@ -4,14 +4,12 @@
 \alias{getK}
 \title{getK function}
 \usage{
-getK(..., timeVECT)
+getK(...)
 }
 \arguments{
-\item{...}{One of more getMPN or getk objects}
+\item{...}{One of more MPN or K objects}
 
-\item{timeVECT}{vector containing the time/dose points (necessary if getMPN as objects)}
-
-\item{typeOF}{FALSE for getMPN combination and TRUE for getK combination.}
+\item{timeVECT}{vector containing the time/dose points (necessary if MPN objects)}
 }
 \description{
 Calculate the inactivation constant k by combining MPN values and its uncertainties

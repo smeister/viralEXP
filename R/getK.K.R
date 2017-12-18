@@ -1,8 +1,7 @@
 #' This is the getK S3 function for class "getK" objects
-#'  @export
-#'
+#' @export
 
-getK.getK <- getK<-function (..., timeVECT) {
+getK.K <- function (...) {
   # Merge the different getMPN or single replicates getK inputs
   input<-list(...)
   if (length(input)>1) {
@@ -13,8 +12,6 @@ getK.getK <- getK<-function (..., timeVECT) {
     for (l in 1:length(input)) { # Creating the dataframe with all data
       theDF<-rbind(theDF,input[[l]]$raw.data)
     }
-  } else { # Here for direct data.frame input
-    theDF<-data.frame(input)
   }
 
   theDF$t<-as.numeric(as.character(theDF$t))
@@ -92,7 +89,7 @@ getK.getK <- getK<-function (..., timeVECT) {
     row.names=results_names
   )
   output<-list("raw.data"=theDF,"Results"=Results)
-  class(output)<-"getK"
+  class(output)<-"K"
   return(output)
 
 }

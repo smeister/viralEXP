@@ -23,7 +23,7 @@ getMPN=function(x,n,v,d=10){
     LL=signif(exp(log(MPN)-qnorm(1-0.05/2,0,1)*SE),digits=3) # Lower 95% confidence interval
     UL=signif(exp(log(MPN)+qnorm(1-0.05/2,0,1)*SE),digits=3) # Upper 95% confidence interval
     output<-list("raw.data"=data.frame("x"=x, "n"=n, "v"=v),"Results"=data.frame('MPNCU.ml'=MPN, "Upper 95CI"=UL, "Lower 95CI"=LL, "Std.err"=SE))
-    class(output)<-"getMPN"
+    class(output)<-"MPN"
     return(output)
   }
 }
