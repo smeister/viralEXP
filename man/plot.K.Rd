@@ -4,7 +4,7 @@
 \alias{plot.K}
 \title{Most Probable Number (MPN) function}
 \usage{
-\method{plot}{K}(Object, type = "ln")
+plot.K(Object, type = "ln")
 }
 \arguments{
 \item{Object}{K object}

@@ -4,7 +4,7 @@
 \alias{plot.MPN}
 \title{Most Probable Number (MPN) function}
 \usage{
-\method{plot}{MPN}(..., plot = TRUE)
+plot.MPN(..., plot = TRUE)
 }
 \arguments{
 \item{...}{MPN objects}
