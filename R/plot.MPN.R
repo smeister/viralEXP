@@ -1,6 +1,6 @@
-#' Most Probable Number (MPN) function
+#' plot.MPN function
 #'
-#' Calculates the MPN
+#' Plots the MPN calculated with the getMPN function
 #' @param ... MPN objects
 #' @param plot if =TRUE returns a dataframe, =FALSE returns a plot
 #' @return a dataframe or a plot

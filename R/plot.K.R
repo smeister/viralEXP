@@ -1,6 +1,6 @@
-#' Most Probable Number (MPN) function
+#' plot.K function
 #'
-#' Calculates the MPN
+#' Plots the K calculated with the getK function
 #' @param Object K object
 #' @param type y axis transformation
 #' @return a plot

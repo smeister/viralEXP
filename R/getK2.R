@@ -1,5 +1,3 @@
-#' GetK function
-#'
 
 # getK2=function (d, r, plot = F)
 # {

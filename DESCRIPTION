@@ -4,7 +4,7 @@ Title: Calculates decay rate coefficients and concentrations for experimental da
 Version: 0.1.0
 Author: Simon Meister and Matthew Verbyla
 Maintainer: Matthew Verbyln a <mverbyla@sdsu.edu>
-Description: Calculates the psuedo-first-order rate coefficient from a decay curve experiment where endpoint dilutions 
+Description: Calculates the pseudo-first-order rate coefficient from a decay curve experiment where endpoint dilutions 
     are used to measure the concentration. This is
     The package also has a function that calculates the MPN concentration for a single sample based on raw data from an 
     endpoint dilution assay. 
