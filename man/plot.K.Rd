@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot.K.R
 \name{plot.K}
 \alias{plot.K}
-\title{Most Probable Number (MPN) function}
+\title{plot.K function}
 \usage{
 plot.K(Object, type = "ln")
 }
@@ -15,5 +15,5 @@ plot.K(Object, type = "ln")
 a plot
 }
 \description{
-Calculates the MPN
+Plots the K calculated with the getK function
 }

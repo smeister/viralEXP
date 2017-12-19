@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot.MPN.R
 \name{plot.MPN}
 \alias{plot.MPN}
-\title{Most Probable Number (MPN) function}
+\title{plot.MPN function}
 \usage{
 plot.MPN(..., plot = TRUE)
 }
@@ -15,5 +15,5 @@ plot.MPN(..., plot = TRUE)
 a dataframe or a plot
 }
 \description{
-Calculates the MPN
+Plots the MPN calculated with the getMPN function
 }
