@@ -1,6 +1,5 @@
 #' @export
 plot.MPN <- function (..., plot=TRUE) {
-  library(ggplot2)
   input<-list(...)
   plot_df<-data.frame(matrix(nrow=0,ncol=0))
   for (i in 1:length(input)) {

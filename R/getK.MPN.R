@@ -93,6 +93,5 @@ getK.MPN <- function (..., timeVECT) {
   output<-list("raw.data"=theDF,"Results"=Results)
   class(output)<-"K"
   return(output)
-
 }
 

@@ -1,6 +1,5 @@
 #' @export
 plot.K <- function (Object, type="ln") {
-  library(ggplot2)
   input<-Object
   plot_df<-data.frame(matrix(nrow=0,ncol=0))
   for (i in 1:length(unique(input$raw.data$rep))) {
