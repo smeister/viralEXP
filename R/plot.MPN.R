@@ -1,4 +1,11 @@
+#' Most Probable Number (MPN) function
+#'
+#' Calculates the MPN
+#' @param ... MPN objects
+#' @param plot if =TRUE returns a dataframe, =FALSE returns a plot
+#' @return a dataframe or a plot
 #' @export
+
 plot.MPN <- function (..., plot=TRUE) {
   input<-list(...)
   plot_df<-data.frame(matrix(nrow=0,ncol=0))

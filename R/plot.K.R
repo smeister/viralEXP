@@ -1,4 +1,11 @@
+#' Most Probable Number (MPN) function
+#'
+#' Calculates the MPN
+#' @param Object K object
+#' @param type y axis transformation
+#' @return a plot
 #' @export
+
 plot.K <- function (Object, type="ln") {
   input<-Object
   plot_df<-data.frame(matrix(nrow=0,ncol=0))

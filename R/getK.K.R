@@ -1,4 +1,8 @@
-#' This is the getK S3 function for class "getK" objects
+#' getK.K function
+#'
+#' This is the getK S3 function for class "K" objects
+#' @param ... K objects
+#' @return a list containing two data frames (raw.data and Results)
 #' @export
 
 getK.K <- function (...) {

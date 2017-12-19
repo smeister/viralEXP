@@ -1,5 +1,9 @@
-#' This is the getK S3 function for class "getMPN" objects
+#' getK.MPN function
 #'
+#' This is the getK S3 function for class "MPN" objects
+#' @param ... MPN objects
+#' @param timeVECT input the time/dose vector for each MPN objects
+#' @return a list containing two data frames (raw.data and Results)
 #' @export
 
 getK.MPN <- function (..., timeVECT) {

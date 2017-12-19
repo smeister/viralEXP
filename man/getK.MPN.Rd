@@ -2,10 +2,18 @@
 % Please edit documentation in R/getK.MPN.R
 \name{getK.MPN}
 \alias{getK.MPN}
-\title{This is the getK S3 function for class "getMPN" objects}
+\title{getK.MPN function}
 \usage{
 \method{getK}{MPN}(..., timeVECT)
 }
+\arguments{
+\item{...}{MPN objects}
+
+\item{timeVECT}{input the time/dose vector for each MPN objects}
+}
+\value{
+a list containing two data frames (raw.data and Results)
+}
 \description{
-This is the getK S3 function for class "getMPN" objects
+This is the getK S3 function for class "MPN" objects
 }

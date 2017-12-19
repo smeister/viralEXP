@@ -8,8 +8,6 @@ getK(...)
 }
 \arguments{
 \item{...}{One of more MPN or K objects}
-
-\item{timeVECT}{vector containing the time/dose points (necessary if MPN objects)}
 }
 \description{
 Calculate the inactivation constant k by combining MPN values and its uncertainties

@@ -2,10 +2,16 @@
 % Please edit documentation in R/getK.K.R
 \name{getK.K}
 \alias{getK.K}
-\title{This is the getK S3 function for class "getK" objects}
+\title{getK.K function}
 \usage{
 \method{getK}{K}(...)
 }
+\arguments{
+\item{...}{K objects}
+}
+\value{
+a list containing two data frames (raw.data and Results)
+}
 \description{
-This is the getK S3 function for class "getK" objects
+This is the getK S3 function for class "K" objects
 }
