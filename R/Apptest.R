@@ -358,22 +358,22 @@
 #   })
 #
 #   # Save Data
-#   output$savegetMPN <- downloadHandler(
-#     filename = function () {
-#       paste("data", ".csv", sep="")
-#     },
-#     content = function (file) {
-#       df <- hot.to.df(input$importData)
-#       resultsDF <- data.frame(lapply(calcMPN(df), as.character), stringsAsFactors=FALSE)
-#       df <- rbind(df, rep("", length(df)))
-#       df <- rbind(df, c("RESULTS:", rep("", length(df)-1)))
-#       df <- rbind(df, names(resultsDF))
-#       df <- rbind(df, unlist(resultsDF[1,], use.names=FALSE), unlist(resultsDF[2,], use.names=FALSE), unlist(resultsDF[3,], use.names=FALSE))
-#       df <- rbind(df, rep("", length(df)))
-#       print(df)
-#       write.table(df, file, sep=";", dec=".", row.names = FALSE)
-#     }
-#   )
+  # output$savegetMPN <- downloadHandler(
+  #   filename = function () {
+  #     paste("data", ".csv", sep="")
+  #   },
+  #   content = function (file) {
+  #     df <- hot.to.df(input$importData)
+  #     resultsDF <- data.frame(lapply(calcMPN(df), as.character), stringsAsFactors=FALSE)
+  #     df <- rbind(df, rep("", length(df)))
+  #     df <- rbind(df, c("RESULTS:", rep("", length(df)-1)))
+  #     df <- rbind(df, names(resultsDF))
+  #     df <- rbind(df, unlist(resultsDF[1,], use.names=FALSE), unlist(resultsDF[2,], use.names=FALSE), unlist(resultsDF[3,], use.names=FALSE))
+  #     df <- rbind(df, rep("", length(df)))
+  #     print(df)
+  #     write.table(df, file, sep=";", dec=".", row.names = FALSE)
+  #   }
+  # )
 #   #################### getMPN #######################
 #   ###################################################
 #

@@ -9,7 +9,7 @@ ui <- navbarPage(title="Virus Infectivity Calculation",
     fixedRow(
       column(width=12,
         #
-        "Example:"
+        "getMPN Example:"
       )
     ),
     br(),
@@ -94,14 +94,41 @@ ui <- navbarPage(title="Virus Infectivity Calculation",
     fixedRow(
       column(width = 12,
              actionButton(inputId = "clickMPN", label = "Calculate MPN"),
-             downloadButton("saveData","Save")),
+             downloadButton("saveMPN","Save")),
       column(width=6,tableOutput(outputId = "table")),
       column(width=6,plotOutput(outputId = "graph", height = "300px"))
     )
   ),
   tabPanel("getK",
     #
-    "getK"
+    fixedRow(
+      column(width=12,
+             #
+             "getK Example:"
+      )
+    ),
+    br(),
+    fixedRow(
+      #
+      column(width=12,
+             tags$img(src='IMG for App.png', align = "center", height = "310px",width = "930px")
+      )
+    ),
+    br(),
+    column(width=12,
+      #
+      fixedRow(style = "border-radius: 10px; border-width: 2px; border-style: solid;border-color: #000000;height:320px;width:900px",
+        "pouet"
+      )
+    ),
+    br(),
+    fixedRow(
+      column(width = 12,
+             actionButton(inputId = "clickK", label = "Calculate K"),
+             downloadButton("saveDataK","Save")),
+      column(width=6,tableOutput(outputId = "tableK")),
+      column(width=6,plotOutput(outputId = "graphK", height = "300px"))
+    )
   )
 )
 
@@ -241,36 +268,30 @@ server <- function(input, output) {
 
     # Final calculation
     output$graph<-renderPlot({
-      plotMPN(df1,df2,df3,df4,df5,df6)
+      plot(df1,df2,df3,df4,df5,df6)
+    })
+    saveData<-reactive({
+      plot(df1,df2,df3,df4,df5,df6, plot=FALSE)
     })
     output$table <- renderTable({
-      plotMPN(df1,df2,df3,df4,df5,df6, plot=FALSE)
+      saveData()
     })
-
     # Save Data
-    output$saveData <- downloadHandler(
+    thedata <- reactive(output$table)
+    output$saveMPN <- downloadHandler(
       filename = function () {
-        paste0("data", ".csv")
+        paste("data ",Sys.Date(), ".csv", sep="")
       },
-      content = function (file) {
-        df <- hot.to.df(input$table)
-        #resultsDF <- data.frame(lapply(calcMPN(df), as.character), stringsAsFactors=FALSE)
-        #df <- rbind(df, rep("", length(df)))
-        #df <- rbind(df, c("RESULTS:", rep("", length(df)-1)))
-        #df <- rbind(df, names(resultsDF))
-        #df <- rbind(df, unlist(resultsDF[1,], use.names=FALSE), unlist(resultsDF[2,], use.names=FALSE), unlist(resultsDF[3,], use.names=FALSE))
-        #df <- rbind(df, rep("", length(df)))
-        write.table(df, file, sep=";", dec=".", row.names = FALSE)
+      content = function(file){
+        write.table(saveData(), file, row.names=FALSE, sep=",")
       }
     )
   })
-
 
   ########################### MPN calculation ############################
   ########################################################################
 
 }
-
 
 # Run the application
 shinyApp(ui = ui, server = server)
