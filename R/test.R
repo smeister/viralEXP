@@ -1,6 +1,14 @@
-# library(viralEXP)
+# # library(viralEXP)
 # DFtest<-read.csv("D:/Dropbox/EPFL/Lab book/R/template.csv",sep=";", header = T)
 # mylist
+#
+# DFtest<-read.csv("D:/Dropbox/EPFL/Lab book/R/template.csv",sep=";", header = T)
+# levels(DFtest$t)
+#
+# DFtest$t[1]
+#
+# ifelse(!is.na(DFtest$t[1]),"yé", "yo")
+
 #
 # mylist<-split(DFtest, DFtest[,c("virus","dis","rep","sample","exp")])
 #
@@ -22,7 +30,7 @@
 # }
 #
 # unsplit(mylist2, f=F)
-#
+
 #
 #
 #

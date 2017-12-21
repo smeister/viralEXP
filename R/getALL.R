@@ -26,7 +26,6 @@ getALL<-function () {
   theDF$x<-as.numeric(as.character(theDF$x))
   theDF$n<-as.numeric(as.character(theDF$n))
   theDF$v<-as.numeric(as.character(theDF$v))
-
   virus<-c()
   dis<-c()
   sample<-c()
@@ -55,9 +54,28 @@ getALL<-function () {
           for (m in 1:length(levels(theDF5$rep))) { # subset the rep
             theDF6<-subset(theDF5, rep == levels(theDF5$rep)[m])
             theDF6<- droplevels(theDF6)
-            for (o in 1:length(levels(theDF6$t))) { # subset the timepoints (t)
-              theDF7<-subset(theDF6, rep == levels(theDF6$rep)[o])
-              theDF7<- droplevels(theDF7)
+            if (!is.na(theDF6$t[1])) {
+              for (o in 1:length(unique(theDF6$t))) { # subset the timepoints (t)
+                theDF7<-subset(theDF6, t == unique(theDF6$t)[o])
+                theDF7<- droplevels(theDF7)
+                # MPN vectors filling
+                MPN<-c(MPN,getMPN(x=theDF7$x,n=theDF7$n,v=theDF7$v)$Results$MPNCU.ml)
+                UCI_95<-c(UCI_95,getMPN(x=theDF7$x,n=theDF7$n,v=theDF7$v)$Results$Upper.95CI)
+                LCI_95<-c(LCI_95,getMPN(x=theDF7$x,n=theDF7$n,v=theDF7$v)$Results$Lower.95CI)
+                Std_err<-c(Std_err,getMPN(x=theDF7$x,n=theDF7$n,v=theDF7$v)$Results$Std.err)
+                # Information vectors filling
+                virus<-c(virus,levels(theDF7$virus))
+                dis<-c(dis,levels(theDF7$dis))
+                sample<-c(sample,levels(theDF7$sample))
+                exp<-c(exp,levels(theDF7$exp))
+                rep<-c(rep,levels(theDF7$rep))
+                t<-c(t,unique(theDF7$t))
+                name<-c(name,levels(theDF7$name))
+                date<-c(date,levels(theDF7$date))
+
+              }
+            } else {
+              theDF7<-theDF6
               # MPN vectors filling
               MPN<-c(MPN,getMPN(x=theDF7$x,n=theDF7$n,v=theDF7$v)$Results$MPNCU.ml)
               UCI_95<-c(UCI_95,getMPN(x=theDF7$x,n=theDF7$n,v=theDF7$v)$Results$Upper.95CI)
@@ -69,7 +87,7 @@ getALL<-function () {
               sample<-c(sample,levels(theDF7$sample))
               exp<-c(exp,levels(theDF7$exp))
               rep<-c(rep,levels(theDF7$rep))
-              t<-c(t,levels(theDF7$t))
+              t<-c(t,unique(theDF7$t))
               name<-c(name,levels(theDF7$name))
               date<-c(date,levels(theDF7$date))
             }
@@ -78,7 +96,6 @@ getALL<-function () {
       }
     }
   }
-
   # Fill the dataframe
   Final_DF<-data.frame(
     virus=virus,

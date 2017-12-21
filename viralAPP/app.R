@@ -91,12 +91,14 @@ ui <- navbarPage(title="Virus Infectivity Calculation",
            )
     ),
     br(),
-    fixedRow(
-      column(width = 12,
-             actionButton(inputId = "clickMPN", label = "Calculate MPN"),
-             downloadButton("saveMPN","Save")),
-      column(width=6,tableOutput(outputId = "table")),
-      column(width=6,plotOutput(outputId = "graph", height = "300px"))
+    column(width=12,
+      fixedRow(
+        column(width = 12,
+               actionButton(inputId = "clickMPN", label = "Calculate MPN"),
+               downloadButton("saveMPN","Save")),
+        column(width=5,tableOutput(outputId = "table")),
+        column(width=4,plotOutput(outputId = "graph", height = "250px"))
+      )
     )
   ),
   tabPanel("getK",
@@ -118,7 +120,7 @@ ui <- navbarPage(title="Virus Infectivity Calculation",
     column(width=12,
       #
       fixedRow(style = "border-radius: 10px; border-width: 2px; border-style: solid;border-color: #000000;height:320px;width:900px",
-        "pouet"
+        "insert three tables"
       )
     ),
     br(),
@@ -127,7 +129,7 @@ ui <- navbarPage(title="Virus Infectivity Calculation",
              actionButton(inputId = "clickK", label = "Calculate K"),
              downloadButton("saveDataK","Save")),
       column(width=6,tableOutput(outputId = "tableK")),
-      column(width=6,plotOutput(outputId = "graphK", height = "300px"))
+      column(width=6,plotOutput(outputId = "graphK", height = "250px"))
     )
   )
 )
