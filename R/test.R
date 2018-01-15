@@ -1,3 +1,9 @@
+# install.packages("xlsReadWrite")
+# library(xls)
+#
+# install.packages("rJava")
+# library(rJava)
+
 # # library(viralEXP)
 # DFtest<-read.csv("D:/Dropbox/EPFL/Lab book/R/template.csv",sep=";", header = T)
 # mylist
@@ -9,7 +15,6 @@
 #
 # ifelse(!is.na(DFtest$t[1]),"yé", "yo")
 
-#
 # mylist<-split(DFtest, DFtest[,c("virus","dis","rep","sample","exp")])
 #
 # mylist<-value
@@ -30,6 +35,32 @@
 # }
 #
 # unsplit(mylist2, f=F)
+
+# data.frame(matrix(c(1,1,1,1,2,2,2,2,3,3,3,3), ncol = 3, nrow = 4))
+#
+#
+# df1<-data.frame(matrix(c(1,1,1,1,2,2,2,2,3,3,3,3), ncol = 3, nrow = 4))
+#
+# df2<-apply(df1[2:3], as.integer)
+#
+#
+# df3<-cbind(df1[1:2], lapply(df1[2:3], as.integer))
+#
+# ?apply
+# str(df3)
+#
+# (df1[2:3])
+#
+# as.integer(df1[2:3])
+#
+# matrix(0, ncol = 3, nrow = 4)
+#
+# x<-c(1,2,3,NA,4,5,6)
+#
+# if (any(is.na(x))) {
+#   print("hehe")
+# }
+
 
 #
 #

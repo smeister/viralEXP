@@ -1,98 +1,85 @@
 #' getK.MPN function
 #'
-#' This is the getK S3 function for class "MPN" objects
+#' This is the getK S3 function for class "MPN" objects.
 #' @param ... MPN objects
 #' @param timeVECT input the time/dose vector for each MPN objects
 #' @return a list containing two data frames (raw.data and Results)
 #' @export
 
 getK.MPN <- function (..., timeVECT) {
-  # Merge the different getMPN or single replicates getK inputs
+  # Merge the different getMPN inputs
   input<-list(...)
   if (length(input)>1) {
     for (k in 1:length(input)) {
-      input[[k]]$raw.data$rep<-rep(1,length(input[[k]]$raw.data$x))
       input[[k]]$raw.data$t<-rep(timeVECT[k],length(input[[k]]$raw.data$x))
     }
     theDF<-data.frame()
     for (l in 1:length(input)) { # Creating the dataframe with all data
       theDF<-rbind(theDF,input[[l]]$raw.data)
     }
+  } else {
+    stop("Error: length(input) should be >1")
   }
-
+  if (missing(timeVECT) | any(is.na(timeVECT)) | any(!is.numeric(timeVECT))) {
+    stop("Error: the time/dose vector is missing or invalid")
+  }
+  # Convert all the vectors as numeric type
   theDF$t<-as.numeric(as.character(theDF$t))
   theDF$v<-as.numeric(as.character(theDF$v))
-  theDF$rep<-as.numeric(as.character(theDF$rep))
-  # Empty vectors for fill up
-  Results_list<-list()
-  lnDiff_grouped<-c()
-  times_grouped<-c()
-  mu0s<-c()
+  theDF$n<-as.numeric(as.character(theDF$n))
+  theDF$x<-as.numeric(as.character(theDF$x))
+  # Create vectors for $Results output
   LP1<-c()
   LP2<-c()
   k_val<-c()
   Intercept<-c()
-  results_names<-c()
+  # Create vectors for $raw.data output
   MPNs<-c()
   lnDiffs<-c()
   logDiffs<-c()
   Std.err<-c()
-
-  for (i in 1:length(unique(theDF$rep))) { # subset the replicate
-    theDF2<-subset(theDF, rep == unique(theDF$rep)[i])
-    MPN<-c();lnDiff<-c();logDiff<-c();rep<-c();times<-c()
-    for (j in 1:length(unique(theDF2$t))) { # subset the time point
-      # getMPN calculation per timepoint
-      theDF3<-subset(theDF2, t == unique(theDF2$t)[j])
-      if (j == 1) {
-        mu0s<-c(mu0s,getMPN(x=theDF3$x, n=theDF3$n, v=theDF3$v)$Results$MPNCU.ml)
-      }
-      C1<-getMPN(x=theDF3$x, n=theDF3$n, v=theDF3$v)$Results$MPNCU.ml
-      MPN<-c(MPN, C1)
-      lnDiff<-c(lnDiff,log(C1/mu0s[i]))
-      logDiff<-c(logDiff,log10(C1/mu0s[i]))
-      rep<-c(rep, theDF3$rep[j])
-      times<-c(times,theDF3$t[j])
-      MPNs<-c(MPNs, rep(C1,length(theDF3$t)))
-      lnDiffs<-c(lnDiffs,rep(log(C1/mu0s[i]),length(theDF3$t)))
-      logDiffs<-c(logDiffs,rep(log10(C1/mu0s[i]),length(theDF3$t)))
-      Std.err<-c(Std.err,rep(getMPN(x=theDF3$x, n=theDF3$n, v=theDF3$v)$Results$Std.err,length(theDF3$t)))
-    }
-
-    # getK calculation for each replicate
-    k_init = -coef(lm(as.vector(lnDiff) ~ as.vector(times)))[[2]]
-    lnLs<-buildlnL(theDF2)
-    repSEP = mle2(lnLs, start = list(k = k_init, b = 0, mu0 = mu0s[i]), method = "BFGS", optimizer = "nlminb", skip.hessian = F)
-    lnDiff_grouped<-c(lnDiff_grouped,lnDiff)
-    times_grouped<-c(times_grouped,times)
-    LP1<-c(LP1,confint(repSEP, parm = c("k"), method = "quad")[1])
-    LP2<-c(LP2,confint(repSEP, parm = c("k"), method = "quad")[2])
-    k_val<-c(k_val,coef(repSEP)[1])
-    Intercept<-c(Intercept,coef(repSEP)[2])
-    results_names<-c(results_names,paste("Rep", i, sep=""))
+  # Create vectors for getK calculation
+  MPN<-c()
+  lnDiff<-c()
+  logDiff<-c()
+  times<-c()
+  # Loop that extract the values for getK calculation
+  for (i in 1:length(unique(theDF$t))) {
+    # Subset the dataframe into timepoints t
+    theDF2<-subset(theDF, t == unique(theDF$t)[i])
+    # Fill vectors for getK calculation
+    Ci<-input[[i]]$Results$MPNCU.ml
+    MPN<-c(MPN, Ci)
+    lnDiff<-c(lnDiff,log(Ci/MPN[1]))
+    logDiff<-c(logDiff,log10(Ci/MPN[1]))
+    times<-c(times,theDF2$t[i])
+    # Fill vectors for $raw.data output
+    MPNs<-c(MPNs, rep(Ci,length(theDF2$t)))
+    lnDiffs<-c(lnDiffs,rep(log(Ci/MPN[1]),length(theDF2$t)))
+    logDiffs<-c(logDiffs,rep(log10(Ci/MPN[1]),length(theDF2$t)))
+    Std.err<-c(Std.err,rep(getMPN(x=theDF2$x, n=theDF2$n, v=theDF2$v)$Results$Std.err,length(theDF2$t)))
   }
-  # Complete the raw results with MPNs, lnDiffs, and logDiffs vector
+  # Complete the dataframe with the $raw.data vectors
   theDF$MPN<-MPNs
   theDF$lnDiff<-lnDiffs
   theDF$logDiff<-logDiffs
   theDF$Std.err<-Std.err
-  # getK calculation for grouped replicates
+  theDF$rep<-rep(1,length(theDF$MPN))
+  # getK calculation
   lnLs<-buildlnL(theDF)
-  k_init = -coef(lm(as.vector(lnDiff_grouped) ~ as.vector(times_grouped)))[[2]]
-  repGROUP = mle2(lnLs, start = list(k = k_init, b = 0, mu0 = mean(mu0s)), method = "BFGS", optimizer = "nlminb", skip.hessian = F)
-  LP1<-c(LP1,confint(repGROUP, parm = c("k"), method = "quad")[1])
-  LP2<-c(LP2,confint(repGROUP, parm = c("k"), method = "quad")[2])
-  k_val<-c(k_val,coef(repGROUP)[1])
-  Intercept<-c(Intercept,coef(repGROUP)[2])
-  results_names<-c(results_names,"Grouped")
-
-  # Function output
+  k_init = -coef(lm(as.vector(lnDiff) ~ as.vector(times)))[[2]]
+  MLE = mle2(lnLs, start = list(k = k_init, b = 0, mu0 = MPN[1]), method = "BFGS", optimizer = "nlminb", skip.hessian = FALSE)
+  LP1<-c(LP1,confint(MLE, parm = c("k"), method = "quad")[1])
+  LP2<-c(LP2,confint(MLE, parm = c("k"), method = "quad")[2])
+  k_val<-c(k_val,coef(MLE)[1])
+  Intercept<-c(Intercept,coef(MLE)[2])
+  # Build output
   Results<-data.frame(
     "LP 2.5%"=LP1,
     "Decay rate (k)"=k_val,
     "LP 97.5%"=LP2,
     "Intercept"=Intercept,
-    row.names=results_names
+    row.names = NULL
   )
   output<-list("raw.data"=theDF,"Results"=Results)
   class(output)<-"K"

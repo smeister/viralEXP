@@ -15,5 +15,5 @@
 a list containing two data frames (raw.data and Results)
 }
 \description{
-This is the getK S3 function for class "MPN" objects
+This is the getK S3 function for class "MPN" objects.
 }

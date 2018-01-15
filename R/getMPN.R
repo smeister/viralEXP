@@ -9,6 +9,7 @@
 #' @export
 
 getMPN=function(x,n,v,d=10){
+  library(bbmle)
   if (length(v)==1) {
     v<-repDIL(v,length(x),d)
   }

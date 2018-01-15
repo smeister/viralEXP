@@ -11,16 +11,21 @@ plot.K <- function (Object, type="ln") {
   plot_df<-data.frame(matrix(nrow=0,ncol=0))
   for (i in 1:length(unique(input$raw.data$rep))) {
     theDF<-subset(input$raw.data, rep == unique(input$raw.data$rep)[i])
-    plot_rep<-data.frame(
-      "rep"=unique(theDF$rep),
-      "t"=unique(theDF$t),
-      "lnDiff"=unique(theDF$lnDiff),
-      "logDiff"=unique(theDF$logDiff),
-      "Std.err"=unique(theDF$Std.err)
-    )
-    plot_rep$Decay.rate<-rep(input$Results$Decay.rate..k.[i],length(plot_rep[,1]))
-    plot_rep$Intercept<-rep(input$Results$Intercept[i],length(plot_rep[,1]))
-    plot_df<-rbind(plot_df,plot_rep)
+    theDF<-droplevels(theDF)
+    for (j in 1:length(unique(theDF$t))) {
+      theDF2<-subset(theDF, t == unique(theDF$t)[j])
+      theDF2<-droplevels(theDF2)
+      plot_rep<-data.frame(
+        "rep"=unique(theDF2$rep),
+        "t"=unique(theDF2$t),
+        "lnDiff"=unique(theDF2$lnDiff),
+        "logDiff"=unique(theDF2$logDiff),
+        "Std.err"=unique(theDF2$Std.err)
+      )
+      plot_rep$Decay.rate<-rep(input$Results$Decay.rate..k.[i],length(plot_rep[,1]))
+      plot_rep$Intercept<-rep(input$Results$Intercept[i],length(plot_rep[,1]))
+      plot_df<-rbind(plot_df,plot_rep)
+    }
   }
   if (type == "ln") {
     # For ln
