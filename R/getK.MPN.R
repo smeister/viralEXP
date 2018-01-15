@@ -9,7 +9,12 @@
 getK.MPN <- function (..., timeVECT) {
   # Merge the different getMPN inputs
   input<-list(...)
-  if (length(input)>1) {
+  # Check if the timeVECT is present
+  if (missing(timeVECT) | any(is.na(timeVECT)) | any(!is.numeric(timeVECT))) {
+    stop("Error: the time/dose vector is missing or invalid")
+  }
+  if (length(input) == 1) {
+    input<-input[[1]]
     for (k in 1:length(input)) {
       input[[k]]$raw.data$t<-rep(timeVECT[k],length(input[[k]]$raw.data$x))
     }
@@ -18,10 +23,15 @@ getK.MPN <- function (..., timeVECT) {
       theDF<-rbind(theDF,input[[l]]$raw.data)
     }
   } else {
-    stop("Error: length(input) should be >1")
-  }
-  if (missing(timeVECT) | any(is.na(timeVECT)) | any(!is.numeric(timeVECT))) {
-    stop("Error: the time/dose vector is missing or invalid")
+    if (length(input)>1) {
+      for (k in 1:length(input)) {
+        input[[k]]$raw.data$t<-rep(timeVECT[k],length(input[[k]]$raw.data$x))
+      }
+      theDF<-data.frame()
+      for (l in 1:length(input)) { # Creating the dataframe with all data
+        theDF<-rbind(theDF,input[[l]]$raw.data)
+      }
+    }
   }
   # Convert all the vectors as numeric type
   theDF$t<-as.numeric(as.character(theDF$t))

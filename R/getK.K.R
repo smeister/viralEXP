@@ -8,16 +8,25 @@
 getK.K <- function (...) {
   # Merge the different getK inputs
   input<-list(...)
-  if (length(input)>1) {
-    for (k in 1:length(input)) { # Creating a rep vector in $raw.data for each biological replicate
-      input[[k]]$raw.data$rep<-rep(k,length(input[[k]]$raw.data$x))
+  if (length(input) == 1) {
+    input<-input[[1]]
+    for (k in 1:length(input)) {
+      input[[k]]$raw.data$t<-rep(timeVECT[k],length(input[[k]]$raw.data$x))
     }
     theDF<-data.frame()
     for (l in 1:length(input)) { # Creating the dataframe with all data
       theDF<-rbind(theDF,input[[l]]$raw.data)
     }
   } else {
-    stop("Error: length(input) should be >1")
+    if (length(input)>1) {
+      for (k in 1:length(input)) {
+        input[[k]]$raw.data$t<-rep(timeVECT[k],length(input[[k]]$raw.data$x))
+      }
+      theDF<-data.frame()
+      for (l in 1:length(input)) { # Creating the dataframe with all data
+        theDF<-rbind(theDF,input[[l]]$raw.data)
+      }
+    }
   }
   # Convert all the vectors as numeric type
   theDF$t<-as.numeric(as.character(theDF$t))
