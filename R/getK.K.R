@@ -8,19 +8,12 @@
 getK.K <- function (...) {
   # Merge the different getK inputs
   input<-list(...)
-  if (length(input) == 1) {
-    input<-input[[1]]
-    for (k in 1:length(input)) {
-      input[[k]]$raw.data$t<-rep(timeVECT[k],length(input[[k]]$raw.data$x))
-    }
-    theDF<-data.frame()
-    for (l in 1:length(input)) { # Creating the dataframe with all data
-      theDF<-rbind(theDF,input[[l]]$raw.data)
-    }
+  if (length(input) <= 1) {
+    stop("Error: the number of K objects input should be >1")
   } else {
     if (length(input)>1) {
-      for (k in 1:length(input)) {
-        input[[k]]$raw.data$t<-rep(timeVECT[k],length(input[[k]]$raw.data$x))
+      for (k in 1:length(input)) { # Creating a rep vector in $raw.data for each biological replicate
+        input[[k]]$raw.data$rep<-rep(k,length(input[[k]]$raw.data$x))
       }
       theDF<-data.frame()
       for (l in 1:length(input)) { # Creating the dataframe with all data
@@ -46,12 +39,17 @@ getK.K <- function (...) {
   for (i in 1:length(unique(theDF$rep))) {
     theDF2<-subset(theDF, rep == unique(theDF$rep)[i])
     theDF2<-droplevels(theDF2)
-    lnDiff<-c(lnDiff,unique(theDF2$lnDiff))
-    times<-c(times,unique(theDF2$t))
-    mu0s<-c(mu0s,unique(theDF2$MPN[1]))
     results_names<-c(results_names,paste("Rep", i, sep=""))
     ResultsREP<-rbind(ResultsREP,input[[i]]$Results)
+    for (j in 1:length(unique(theDF$t))) {
+      theDF3<-subset(theDF2, t == unique(theDF2$t)[j])
+      theDF3<-droplevels(theDF3)
+      lnDiff<-c(lnDiff,unique(theDF3$lnDiff))
+      times<-c(times,unique(theDF3$t))
+      mu0s<-c(mu0s,unique(theDF3$MPN[1]))
+    }
   }
+
   # getK calculation all replicates grouped
   lnLs<-buildlnL(theDF)
   k_init = -coef(lm(as.vector(lnDiff) ~ as.vector(times)))[[2]]
